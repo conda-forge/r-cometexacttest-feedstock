@@ -7,20 +7,24 @@ Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/r-cometexacttes
 About r-cometexacttest
 ----------------------
 
-Home: http://compbio.cs.brown.edu/projects/comet
+Home: https://raphael-group.github.io/projects/comet/
 
 Package license: MIT
 
 Summary: An algorithm for identifying combinations of mutually exclusive alterations in cancer genomes. CoMEt represents the mutations in a set M of k genes with a 2^k dimensional contingency table, and then computes the tail probability of observing T(M) exclusive alterations using an exact statistical test.
+
+Development: https://github.com/raphael-group/comet
 
 About r-cometexacttest
 ----------------------
 
-Home: http://compbio.cs.brown.edu/projects/comet
+Home: https://raphael-group.github.io/projects/comet/
 
 Package license: MIT
 
 Summary: An algorithm for identifying combinations of mutually exclusive alterations in cancer genomes. CoMEt represents the mutations in a set M of k genes with a 2^k dimensional contingency table, and then computes the tail probability of observing T(M) exclusive alterations using an exact statistical test.
+
+Development: https://github.com/raphael-group/comet
 
 Current build status
 ====================
