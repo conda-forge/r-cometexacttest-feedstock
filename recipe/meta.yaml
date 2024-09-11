@@ -1,5 +1,4 @@
 {% set version = "0.1.5" %}
-
 {% set posix = 'm2-' if win else '' %}
 
 package:
@@ -7,47 +6,59 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: cometExactTest_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/cometExactTest_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/cometExactTest/cometExactTest_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/cometExactTest_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/cometExactTest/cometExactTest_{{ version }}.tar.gz
   sha256: 377b6c10946eb08be3bc593fb494779646dc4fabbab27e466a3c34966a57292b
 
 build:
   number: 1007
-  skip: true  # [win32]
   rpaths:
     - lib/R/lib/
     - lib/
+  missing_dso_whitelist:
+    - '*/R.dll'        # [win]
+    - '*/Rblas.dll'    # [win]
+    - '*/Rlapack.dll'  # [win]
 
 requirements:
   build:
+    - cross-r-base {{ r_base }}  # [build_platform != target_platform]
+    - r-dplyr                    # [build_platform != target_platform]
     - {{ compiler('c') }}        # [unix]
     - {{ stdlib("c") }}          # [unix]
     - {{ compiler('m2w64_c') }}  # [win]
     - {{ stdlib("m2w64_c") }}    # [win]
+    - {{ posix }}filesystem      # [win]
+    - {{ posix }}make
+    - {{ posix }}sed             # [win]
+    - {{ posix }}coreutils       # [win]
+    - {{ posix }}zip             # [win]
   host:
     - r-base
     - r-dplyr
-
   run:
     - r-base
     - r-dplyr
 
 test:
   commands:
-    - $R -e "library('cometExactTest')"  # [not win]
+    - $R -e "library('cometExactTest')"           # [not win]
     - "\"%R%\" -e \"library('cometExactTest')\""  # [win]
 
 about:
-  home: http://compbio.cs.brown.edu/projects/comet
+  home: https://raphael-group.github.io/projects/comet/
+  dev_url: https://github.com/raphael-group/comet
   license: MIT
-  summary: An algorithm for identifying combinations of mutually exclusive alterations in cancer genomes. CoMEt represents the mutations in a set M of k genes with a 2^k dimensional contingency table, and then computes the tail probability of observing T(M) exclusive alterations using an exact statistical test.
+  summary: An algorithm for identifying combinations of mutually exclusive alterations in cancer
+    genomes. CoMEt represents the mutations in a set M of k genes with a 2^k dimensional
+    contingency table, and then computes the tail probability of observing T(M) exclusive
+    alterations using an exact statistical test.
   license_family: MIT
-
   license_file:
     - {{ environ["PREFIX"] }}/lib/R/share/licenses/MIT
     - LICENSE
+
 extra:
   recipe-maintainers:
     - conda-forge/r
